@@ -17,7 +17,7 @@ Functionality
 
 Initializing the store:
 
-    include('ringo/storage/mongodbstorage');
+    include('ringo/storage/mongodbstore');
     store = new Store('server', 27017, 'dbName');
 
 Creating a new Storable class:
