@@ -105,6 +105,18 @@ exports.testPersistRelations = function () {
     assertTrue(personsAddresses[0] != personsAddresses[1] && personsAddresses[0] == addressA || personsAddresses[0] == addressB && personsAddresses[1] == addressA || personsAddresses[1] == addressB)
 };
 
+exports.testMapReduce = function () {
+    var personA = createTestPerson();
+    personA.save();
+    var personB = createTestPerson();
+    personB.save();
+    var personC = createTestPerson();
+    personC.firstName = FIRST_NAME_2;
+    personC.save();
+    var mappedAndReducedByFirstName = Person.map(function(){emit(this.firstName, 1);}).reduce(function(k, values){var sum = 0; for(var v in values){sum += values[v];} return sum;}).select();
+    assertEqual(2, mappedAndReducedByFirstName.Hans);
+    assertEqual(1, mappedAndReducedByFirstName.Herbert);
+};
 
 exports.testBasicQuerying = function () {
     person = createTestPerson();
