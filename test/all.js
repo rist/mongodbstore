@@ -8,6 +8,7 @@ var store = new Store('localhost', 27017, "rist");
 
 var personId, person;
 var Person = store.defineEntity('Person');
+var Address = store.defineEntity('Address');
 const FIRST_NAME_1 = 'Hans';
 const FIRST_NAME_2 = 'Herbert';
 const LAST_NAME = 'Wurst';
@@ -29,6 +30,9 @@ const VITAE = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, ' +
 
 exports.setUp = exports.tearDown = function () {
     for each (let instance in Person.all()) {
+       instance.remove(); // Clean up.
+    }
+    for each (let instance in Address.all()) {
        instance.remove(); // Clean up.
     }
 };
@@ -73,6 +77,34 @@ exports.testPersistDeletion = function () {
     assertNull(person);
     assertEqual(0, Person.all().length);
 };
+
+exports.testPersistOneToOneRelations = function () {
+    person = createTestPerson();
+    person.save();
+    var address = new Address();
+    address.city = "Vienna";
+    address.street = "Börsegasse 11";
+    person.address = address;
+    person.save();
+    assertEqual(Address.all()[0], Person.all()[0].address);
+};
+
+exports.testPersistRelations = function () {
+    person = createTestPerson();
+    person.save();
+    var addressA = new Address();
+    addressA.city = "Vienna";
+    addressA.street = "Börsegasse";
+    var addressB = new Address();
+    addressB.city = "Vienna";
+    addressB.street = "Marxergasse";
+    person.addresses = [addressA, addressB];
+    person.save();
+    var personsAddresses = Person.all()[0].addresses;
+    assertEqual(2, personsAddresses.length);
+    assertTrue(personsAddresses[0] != personsAddresses[1] && personsAddresses[0] == addressA || personsAddresses[0] == addressB && personsAddresses[1] == addressA || personsAddresses[1] == addressB)
+};
+
 
 exports.testBasicQuerying = function () {
     person = createTestPerson();
