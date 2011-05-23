@@ -4,7 +4,5 @@
     "description": "A MongoDB Ringo storage backend",
     "keywords": ["db", "database", "mongodb"],
     "author": "Stefan Rinner (http://www.rinner.st/) - bwin R&D department (http://labs.bwin.com/)",
-    "jars": [
-        "jars/mongo-2.0-rc4.jar"
-    ]
+    "main": "./lib/ringo/storage/mongodbstore.js"
 }
