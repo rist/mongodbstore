@@ -2,6 +2,8 @@ This is a backend for the RingoJS Storable interface based on MongoDB[1].
 
   [1]: http://www.mongodb.org/
 
+__THIS CODE HASN'T BEEN UPDATED IN 3 YEARS AND IS PROBABLY NOT COMPATIBLE ANY MORE WHITH CURRENT VERSIONS OF RINGOJS__
+
 Requirements
 ============
 
